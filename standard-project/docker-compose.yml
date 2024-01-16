@@ -1,0 +1,54 @@
+version: "3.8"
+services:
+
+    # MySQL database service
+    db:
+        image: mysql:8.0
+        container_name: mysql-db
+        ports:
+            - "3306:3306"
+        volumes:
+          - db-data:/var/lib/mysql
+          - ./config/database/init/:/docker-entrypoint-initdb.d
+        command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+        environment:
+          - MYSQL_ROOT_PASSWORD=!sample1234!@
+          - MYSQL_DATABASE=LOCAL_DB
+          - MYSQL_USER=user
+          - MYSQL_PASSWORD=!user1234!@
+        networks:
+            - php-network
+    # PHP service
+    php:
+        build:
+          context:  ./config
+          dockerfile: Dockerfile
+        container_name: php
+        working_dir: /game/www/standard-project
+        depends_on:
+          - db
+        volumes:
+          - ./:/game/www/standard-project
+          - ./config/logs:/game/log
+        networks:
+          - php-network
+    # Nginx service
+    nginx:
+        image: nginx:alpine
+        container_name: php-nginx
+        depends_on:
+          - php
+        ports:
+          - 80:80
+        volumes:
+          - ./config/nginx/:/etc/nginx/conf.d
+          - ./:/game/www/standard-project
+          - ./config/logs:/game/log
+        networks:
+            - php-network
+
+networks:
+    php-network:
+        driver: bridge
+volumes:
+  db-data:
