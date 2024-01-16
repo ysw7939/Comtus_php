@@ -54,6 +54,16 @@ $route['404_override']         = '';
 $route['translate_uri_dashes'] = FALSE;
 
 // Restfull API Routes
-$route['users/(:num)']['GET']                   = 'users/findUserNo/$1';       // 유저 고유번호를 이용한 정보 조회
-$route['users/(:num)/(:any)']['PATCH']     = 'users/patchUserName/$1/$2';     //  유저 이름 수정
-$route['users/name/(:any)']['GET']              = 'users/findUserName/$1'; // 유저 이름을 이용한 정보 조회
+$route['users/(:num)']['GET']                   = 'users/findUserNo/$1';        // 유저 고유번호를 이용한 정보 조회
+$route['users/(:num)/name']['PATCH']            = 'users/patchUserName/$1';      //  유저 이름 수정
+$route['users/name/(:any)']['GET']              = 'users/findUserName/$1';          // 유저 이름을 이용한 정보 조회
+
+$route['users']['POST']                         = 'users/createUser';
+
+$route['users/(:num)']['DELETE']                = 'users/deleteUser/$1';
+
+// 캐릭터
+$route['chars/user-no/(:num)/char-no/(:num)']['GET']              = 'users/findChar/$1/$2';   
+$route['chars']['POST']                                           = 'users/createChar';
+$route['chars/user-no/(:num)/char-no/(:num)']['PATCH']            = 'users/patchChar/$1/$2';  
+$route['chars/user-no/(:num)/char-no/(:num)']['DELETE']           = 'users/deleteChar/$1/$2';

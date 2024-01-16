@@ -138,6 +138,12 @@ $db['master'] = [
  */
 if( !defined( 'TABLE_PREFIX' ) )
 {
-	define( 'TABLE_PREFIX', 'tb_' );
-	define( 'USER_INFO', TABLE_PREFIX . 'user' );                    // 유저 정보 테이블
+	define( 'TABLE_PREFIX', 'user' );
+	define( 'USER_INFO', TABLE_PREFIX . '_info' );                    // 유저 정보 테이블
+              // 유저 정보 테이블
 }
+if(!defined( 'TABLE_PREFIX_CHAR' )){
+	define( 'TABLE_PREFIX_CHAR', 'char' );
+	define( 'CHAR_INFO', TABLE_PREFIX_CHAR . '_info' );    
+}
+  
